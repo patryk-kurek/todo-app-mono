@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql/mysql-server:8.0
+    container_name: todo_sql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'todoback'
+      MYSQL_ROOT_PASSWORD: '1234'
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - '3306:3306'
+    tty: false

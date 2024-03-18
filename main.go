@@ -1,16 +1,14 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"log"
 	"os"
+	"todo_backend/db"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 ) 
-
-var db *sql.DB
+ 
+var Db db.Database
 
 func main(){ 
 	godotenv.Load()
@@ -21,15 +19,5 @@ func main(){
 		Addr: "127.0.0.1:3306",
 		DBName: "todos",
 	}
-	var err error 
-	db, err = sql.Open("mysql",cfg.FormatDSN())
-	if err != nil{
-		log.Fatal(err)
-	}
-
-	pingErr:= db.Ping()
-	if pingErr != nil{
-		log.Fatal(pingErr)
-	}
-	fmt.Println("Connected!")
+	Db.InitDb(cfg)
 }

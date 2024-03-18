@@ -13,11 +13,14 @@ type Database struct {
 	db *sql.DB
 }
 
+var Db Database
+
 var createTableQuery string = `CREATE TABLE IF NOT EXISTS todos (
 	id int(11) NOT NULL auto_increment,
 	title varchar(250) NOT NULL DEFAULT '0',
 	description varchar(500) DEFAULT "No description",
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+	completed BOOLEAN DEFAULT 0,
 	PRIMARY KEY(id)
 );`
 
@@ -39,14 +42,15 @@ func (d *Database) InitDb(cfg mysql.Config){
 	fmt.Println(res.RowsAffected())
 }
 
-func (d *Database) AddToDo(element model.Todo){
+func (d *Database) AddToDo(element model.Todo) (string,error){
 	d.checkConnection()
-	res,err := d.db.Exec(element.GetAddQueryString()) 
+	_,err := d.db.Exec(element.GetAddQueryString()) 
 	if err != nil { 
-		log.Fatal(err)
-		return
+		log.Println(err.Error()) 
+		return err.Error(),err 
 	}
-	fmt.Println(res.RowsAffected())
+	
+	return "Succesfully added data",nil
 }
 
 func (d *Database) checkConnection(){

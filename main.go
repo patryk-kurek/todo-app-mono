@@ -1,14 +1,16 @@
 package main
 
 import (
+	"log"
+	"net/http"
 	"os"
 	"todo_backend/db"
+	"todo_backend/routes"
 
 	"github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 ) 
- 
-var Db db.Database
 
 func main(){ 
 	godotenv.Load()
@@ -19,5 +21,11 @@ func main(){
 		Addr: "127.0.0.1:3306",
 		DBName: "todos",
 	}
-	Db.InitDb(cfg)
+	r:= mux.NewRouter() 
+	r.HandleFunc("/todo",routes.AddTodo).Methods("POST");
+	addr:=":3000"
+	db.Db.InitDb(cfg)
+	if err:= http.ListenAndServe(addr,r); err!= nil{
+		log.Fatal(err)
+	} 
 }

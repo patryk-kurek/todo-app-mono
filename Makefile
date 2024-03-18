@@ -13,4 +13,4 @@ stop_db:
 	docker compose -f ./docker/docker-compose.yml down
 
 connect_term_to_db:
-	mysql -h localhost --protocol=TCP -u root -p  
+	mysql -h localhost --protocol=TCP -u root -p

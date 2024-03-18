@@ -53,6 +53,13 @@ func (d *Database) AddToDo(element model.Todo) (string,error){
 	return "Succesfully added data",nil
 }
 
+// func (d *Database) ReadTodos() (string,error){
+// 	// res,err:=d.db.("SELECT * FROM todos;") 
+// 	// if err != nil {
+// 	// 	// handle error
+// 	// }
+// }	
+
 func (d *Database) checkConnection(){
 	pingErr:=d.db.Ping()
 	if pingErr != nil { 

@@ -42,6 +42,16 @@ func (d *Database) InitDb(cfg mysql.Config){
 	fmt.Println(res.RowsAffected())
 }
 
+func (d *Database) DeleteTodo(id string) (string,error){
+	d.checkConnection()
+	_,err := d.db.Exec("DELETE FROM todos WHERE id=?;",id)
+	if err != nil{
+		log.Println(err.Error())
+		return err.Error(),err
+	}
+	return "Succesfully deleted todo with id="+id,nil
+}
+
 func (d *Database) MakeTodoCompleted(id string) (string,error){
 	d.checkConnection();
 	_,err := d.db.Exec("UPDATE todos SET completed=1 WHERE id=?;",id)

@@ -25,6 +25,7 @@ func main(){
 	r.HandleFunc("/todo",routes.AddTodo).Methods("POST");
 	r.HandleFunc("/todo",routes.ReadAllTodos).Methods("GET");
 	r.HandleFunc("/todo/{id}",routes.CompleteTodo).Methods("PATCH");
+	r.HandleFunc("/todo/{id}",routes.DeleteTodo).Methods("DELETE");
 	addr:=":3001"
 	db.Db.InitDb(cfg)
 	if err:= http.ListenAndServe(addr,r); err!= nil{

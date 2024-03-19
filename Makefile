@@ -1,6 +1,9 @@
 dev: 
 	./bin/air
 
+start:
+	go run .
+
 dependencies: go.mod
 	go get github.com/go-sql-driver/mysql
 	go get github.com/gorilla/mux

@@ -1,5 +1,5 @@
 dev: 
-	../bin/air
+	./bin/air
 
 dependencies: go.mod
 	go get github.com/go-sql-driver/mysql

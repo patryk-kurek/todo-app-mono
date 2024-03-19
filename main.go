@@ -24,7 +24,8 @@ func main(){
 	r:= mux.NewRouter() 
 	r.HandleFunc("/todo",routes.AddTodo).Methods("POST");
 	r.HandleFunc("/todo",routes.ReadAllTodos).Methods("GET");
-	addr:=":3000"
+	r.HandleFunc("/todo/{id}",routes.CompleteTodo).Methods("PATCH");
+	addr:=":3001"
 	db.Db.InitDb(cfg)
 	if err:= http.ListenAndServe(addr,r); err!= nil{
 		log.Fatal(err)

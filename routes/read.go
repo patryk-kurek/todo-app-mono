@@ -14,6 +14,7 @@ type responseRead struct {
 
 func ReadAllTodos(w http.ResponseWriter,r *http.Request){	
 	todos,err:=db.Db.ReadTodos()
+	w.Header().Set("Content-Type","application/json")
 	if err != nil{
 		response:= responseRead{err.Error(),[]model.Todo{}}
 		jsonValue,_:=json.Marshal(response)

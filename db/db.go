@@ -42,6 +42,16 @@ func (d *Database) InitDb(cfg mysql.Config){
 	fmt.Println(res.RowsAffected())
 }
 
+func (d *Database) MakeTodoCompleted(id string) (string,error){
+	d.checkConnection();
+	_,err := d.db.Exec("UPDATE todos SET completed=1 WHERE id=?;",id)
+	if err != nil{
+		log.Println(err.Error())
+		return err.Error(),err
+	}
+	return "Succesfully updated todo with id="+id,nil
+}
+
 func (d *Database) AddToDo(element model.Todo) (string,error){
 	d.checkConnection()
 	_,err := d.db.Exec(element.GetAddQueryString()) 

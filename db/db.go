@@ -62,14 +62,17 @@ func (d *Database) MakeTodoCompleted(id string) (string,error){
 	return "Succesfully updated todo with id="+id,nil
 }
 
-func (d *Database) AddToDo(element model.Todo) (string,error){
+func (d *Database) AddToDo(element *model.Todo) (string,error){
 	d.checkConnection()
-	_,err := d.db.Exec(element.GetAddQueryString()) 
-	if err != nil { 
-		log.Println(err.Error()) 
-		return err.Error(),err 
+	res,err:= d.db.Exec(element.GetAddQueryString()); 
+	if err!=nil{
+		log.Println(err.Error())
+		return err.Error(),err
 	}
-	
+	row := d.db.QueryRow("SELECT LAST_INSERT_ID()");
+	row.Scan(&element.Id) 
+
+	fmt.Println(res.RowsAffected())
 	return "Succesfully added data",nil
 }
 

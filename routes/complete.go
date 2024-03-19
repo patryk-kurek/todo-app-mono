@@ -9,7 +9,7 @@ import (
 )
 
 type responseUpdate struct {
-	Message string `json: message`
+	Message string 
 }
 
 func CompleteTodo(w http.ResponseWriter,r *http.Request){ 

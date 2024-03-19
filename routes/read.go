@@ -8,8 +8,8 @@ import (
 )
 
 type responseRead struct {
-	Message string `json: message`
-	Todos []model.Todo `json: todos`
+	Message string 
+	Todos []model.Todo 
  }
 
 func ReadAllTodos(w http.ResponseWriter,r *http.Request){	

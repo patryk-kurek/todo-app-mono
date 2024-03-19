@@ -9,7 +9,7 @@ import (
 )
 
 type responseDelete struct {
-	Message string `json: message`
+	Message string 
 }
 
 func DeleteTodo(w http.ResponseWriter,r *http.Request){

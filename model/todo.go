@@ -3,7 +3,7 @@ package model
 import "fmt"
  
 type Todo struct {
-	Id int
+	Id int  
 	Title string `json: "title"`
 	Description string `json: "description"`
 	Created_at string `json: "created_at"` // name must match!

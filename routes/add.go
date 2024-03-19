@@ -9,8 +9,8 @@ import (
 )
 
 type responseAdd struct {
-	Message string `json: message`
-	Todo model.Todo `json: todo`
+	Message string 
+	Todo model.Todo 
 }
 
 func AddTodo(w http.ResponseWriter,r *http.Request){
@@ -25,14 +25,14 @@ func AddTodo(w http.ResponseWriter,r *http.Request){
 
 	w.Header().Set("Content-type","application/json")
 
-	_,err = db.Db.AddToDo(todo)
+	_,err = db.Db.AddToDo(&todo)
 	if err != nil {
 		response := responseAdd{err.Error(),model.Todo{}}
 		jsonValue,_ := json.Marshal(response)
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		w.Write(jsonValue)
 	} else {
-		response := responseAdd{"Succesfully created user!",todo}
+		response := responseAdd{"Succesfully created todo!",todo}
 		jsonValue,_ := json.Marshal(response)
 		w.Write(jsonValue)
 	}

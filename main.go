@@ -23,6 +23,7 @@ func main(){
 	}
 	r:= mux.NewRouter() 
 	r.HandleFunc("/todo",routes.AddTodo).Methods("POST");
+	r.HandleFunc("/todo",routes.ReadAllTodos).Methods("GET");
 	addr:=":3000"
 	db.Db.InitDb(cfg)
 	if err:= http.ListenAndServe(addr,r); err!= nil{

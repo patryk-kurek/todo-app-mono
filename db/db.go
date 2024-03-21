@@ -24,22 +24,23 @@ var createTableQuery string = `CREATE TABLE IF NOT EXISTS todos (
 	PRIMARY KEY(id)
 );`
 
-func (d *Database) InitDb(cfg mysql.Config){
+func (d *Database) InitDb(cfg mysql.Config) (string,error){
 	db,err := sql.Open("mysql",cfg.FormatDSN())
 	if err != nil{
-		log.Fatal(err)
+		return err.Error(),err
 	}
 	pingErr:= db.Ping()
 	if pingErr != nil{
-		log.Fatal(pingErr)
+		return err.Error(),err
 	}
 	fmt.Println("Connected!");
 	res,err := db.Exec(createTableQuery) 
 	if err!= nil{
-		log.Fatal(err) 
+		return err.Error(),err
 	} 
 	d.db = db
 	fmt.Println(res.RowsAffected())
+	return "succesfully initialized db",nil
 }
 
 func (d *Database) DeleteTodo(id string) (string,error){

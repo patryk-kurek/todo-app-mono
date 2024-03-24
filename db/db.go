@@ -15,16 +15,7 @@ type Database struct {
 
 var Db Database
 
-var createTableQuery string = `CREATE TABLE IF NOT EXISTS todos (
-	id int(11) NOT NULL auto_increment,
-	title varchar(250) NOT NULL DEFAULT '0',
-	description varchar(500) DEFAULT "No description",
-	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-	completed BOOLEAN DEFAULT 0,
-	PRIMARY KEY(id)
-);`
-
-func (d *Database) InitDb(cfg mysql.Config) (string,error){
+func (d *Database) InitDb(cfg mysql.Config,createTableQuery string) (string,error){
 	db,err := sql.Open("mysql",cfg.FormatDSN())
 	if err != nil{
 		return err.Error(),err

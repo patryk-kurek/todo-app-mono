@@ -2,7 +2,6 @@ package routes
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"todo_backend/db"
 	"todo_backend/model"
@@ -16,11 +15,10 @@ type responseAdd struct {
 func AddTodo(w http.ResponseWriter,r *http.Request){
 	var todo model.Todo 
 	
-	fmt.Println(r.Body)
+	// fmt.Println(r.Body)
 	err := json.NewDecoder(r.Body).Decode(&todo)
 	if err != nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		return 
 	}
 
 	w.Header().Set("Content-type","application/json")

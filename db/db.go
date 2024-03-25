@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"todo_backend/model"
@@ -15,50 +16,58 @@ type Database struct {
 
 var Db Database
 
-var createTableQuery string = `CREATE TABLE IF NOT EXISTS todos (
-	id int(11) NOT NULL auto_increment,
-	title varchar(250) NOT NULL DEFAULT '0',
-	description varchar(500) DEFAULT "No description",
-	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-	completed BOOLEAN DEFAULT 0,
-	PRIMARY KEY(id)
-);`
-
-func (d *Database) InitDb(cfg mysql.Config){
+func (d *Database) InitDb(cfg mysql.Config,queries ...string) (string,error){
 	db,err := sql.Open("mysql",cfg.FormatDSN())
 	if err != nil{
-		log.Fatal(err)
+		return err.Error(),err
 	}
 	pingErr:= db.Ping()
 	if pingErr != nil{
-		log.Fatal(pingErr)
+		return err.Error(),err
 	}
 	fmt.Println("Connected!");
-	res,err := db.Exec(createTableQuery) 
-	if err!= nil{
-		log.Fatal(err) 
-	} 
+	var res sql.Result
+	for _,query := range queries{
+		res,err = db.Exec(query)
+		if err != nil{
+			return err.Error(),err
+		}
+	}
 	d.db = db
 	fmt.Println(res.RowsAffected())
+	return "succesfully initialized db",nil
 }
 
 func (d *Database) DeleteTodo(id string) (string,error){
 	d.checkConnection()
-	_,err := d.db.Exec("DELETE FROM todos WHERE id=?;",id)
+	out,err := d.db.Exec("DELETE FROM todos WHERE id=?;",id)
 	if err != nil{
 		log.Println(err.Error())
 		return err.Error(),err
+	}
+	affectedRows,_ := out.RowsAffected()
+	if affectedRows == 0 {
+		nilAffectedRowsErr := errors.New("Nil Affected Rows!")
+		log.Println(nilAffectedRowsErr.Error())
+		return nilAffectedRowsErr.Error(),nilAffectedRowsErr
 	}
 	return "Succesfully deleted todo with id="+id,nil
 }
 
 func (d *Database) MakeTodoCompleted(id string) (string,error){
 	d.checkConnection();
-	_,err := d.db.Exec("UPDATE todos SET completed=1 WHERE id=?;",id)
+	out,err := d.db.Exec("UPDATE todos SET completed=1 WHERE id=?;",id)
 	if err != nil{
 		log.Println(err.Error())
 		return err.Error(),err
+	} 
+	affectedRows,_ := out.RowsAffected()
+	if affectedRows == 0 {
+		nilAffectedRowsErr := errors.New("Nil Affected Rows!")
+		log.Println(nilAffectedRowsErr.Error())
+		return nilAffectedRowsErr.Error(),nilAffectedRowsErr
 	}
+	
 	return "Succesfully updated todo with id="+id,nil
 }
 

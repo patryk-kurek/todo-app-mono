@@ -21,7 +21,6 @@ type RequestBody struct {
 
 type addTestSuite struct {
 	suite.Suite
-
 }
 
 func (s *addTestSuite) SetupSuite() {

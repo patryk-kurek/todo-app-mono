@@ -9,6 +9,9 @@ dependencies: go.mod
 	go get github.com/gorilla/mux
 	go get github.com/joho/godotenv
 
+test:
+	go test -v ./...
+
 start_db:
 	docker compose -f ./docker/docker-compose.yml up -d
 

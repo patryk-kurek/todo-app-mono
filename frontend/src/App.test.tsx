@@ -55,7 +55,13 @@ test("deleting todo",()=>{
 }); 
 
 test("complete todo",()=>{
-   addTodo();
+  addTodo();
+  const todo = screen.getByText("testtodo"); 
+  expect(todo).toBeInTheDocument();
+  const buttons = screen.getAllByRole('button');
+  fireEvent.click(buttons[0]);
+  expect(todo).toHaveStyle(`text-decoration: line-through`);
+  expect(todo).toHaveStyle(`color: grey`);
 });
 
 test("editing todo", ()=>{

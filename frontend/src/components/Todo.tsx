@@ -1,25 +1,32 @@
-import { Card,Box,Fab } from "@mui/material";
+import { Card,Box,Fab,Grid } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Todo = (props:any)=> {
     return ( 
-        <Card sx={{width: '25%',margin: 'auto',marginTop: '1%'}}>
-            <Box sx={{marginLeft: "50%",marginTop:"2%"}}>
-                <Fab size="small" sx={{position: 'absolute',marginLeft: '3%',marginTop: '0.25%'}}>
-                    <CheckIcon/>
-                </Fab>
-                <Fab size="small" sx={{position: 'absolute',marginLeft: '6%',marginTop: '0.25%'}}>
-                    <EditIcon/>
-                </Fab>
-                <Fab onClick={props.onDeleteTodo} size="small" sx={{position: 'absolute',marginLeft: '9%',marginTop: '0.25%'}}>
-                    <DeleteIcon />
-                </Fab> 
-            </Box>
-            <Box sx={{marginLeft: "20px"}}>
-                <h2>{props.value}</h2>
-            </Box>
+        <Card sx={{width: '30%',margin: 'auto',marginTop: '1%',verticalAlign: 'middle'}}>
+            <Grid container spacing={2}>
+                <Grid item xs={7}>
+                    <Box sx={{wordWrap: "break-word", paddingLeft: '20px' ,margin: "auto"}}>
+                        <h2 style={props.todo.completed ? {textDecoration: 'line-through',color: 'grey'} : {}}>{props.todo.value}</h2>
+                    </Box>
+                </Grid>
+                <Grid item xs={5}>
+                    <Box sx={{margin:"auto",display: 'flex',marginLeft: '5%',alignItems: 'center',height: '100%'}}>
+                        <Fab onClick={props.onCompleteTodo}  size="small" >
+                            {props.todo.completed ? <CloseIcon/> : <CheckIcon/>}
+                        </Fab>
+                        <Fab size="small" sx={{marginLeft: '10px'}} >
+                            <EditIcon/>
+                        </Fab>
+                        <Fab onClick={props.onDeleteTodo} sx={{marginLeft: '10px'}} size="small" >
+                            <DeleteIcon />
+                        </Fab> 
+                    </Box>
+                </Grid>
+            </Grid>
         </Card>
     )
 };

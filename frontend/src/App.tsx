@@ -6,11 +6,12 @@ import {useState} from "react"
 interface Todo { 
   value: string
   editMode: boolean
+  editValue: string
   completed: boolean
 }
 
 function App() {
-  const [state,setState] = useState<{todos: string[],input: string}>({
+  const [state,setState] = useState<{todos: Todo[],input: string}>({
     todos: [],
     input: ""
   });
@@ -37,7 +38,13 @@ function App() {
   const onSubmitInput = (event: React.KeyboardEvent<HTMLInputElement>)=>{
     if (event.key == "Enter"){
       const todos = state.todos;
-      todos.push(state.input)
+      const todo: Todo = {
+        value: state.input,
+        editMode: false,
+        editValue: "",
+        completed: false
+      }
+      todos.push(todo)
        
       setState((prevState)=>{
         return {
@@ -49,6 +56,17 @@ function App() {
     }
   };
 
+  const onCompleteTodo = (index: number)=>{ 
+      const todos = state.todos; 
+      todos[index].completed = true;
+      setState(prevState=>{
+        return {
+          ...prevState, 
+          todos: todos
+        }
+      });
+  };
+   
   return (
     <div className="App">
       <header className="App-header">
@@ -65,7 +83,7 @@ function App() {
       </div>
       <div className="Todo-list">
         {state.todos.map((todo,index)=>{
-          return <Todo value={todo} onDeleteTodo={()=>onDeleteTodo(index)}/>
+          return <Todo todo={todo} onCompleteTodo={()=>onCompleteTodo(index)} onDeleteTodo={()=>onDeleteTodo(index)}/>
         })}
       </div>
     </div>

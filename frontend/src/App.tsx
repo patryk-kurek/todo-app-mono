@@ -89,7 +89,7 @@ function App() {
     });
   };
 
-  const onClickEditTodo = (index: number) => {
+  const onClickEditTodo = (index: number) => { 
     setState((prevState) => {
       return {
         ...prevState,
@@ -104,6 +104,7 @@ function App() {
   const onChangeInputEditMode = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
+    event.preventDefault();
     setState((prevState) => {
       return {
         ...prevState,
@@ -176,6 +177,7 @@ function App() {
         {state.todos.map((todo, index) => {
           return (
             <Todo
+              key={index}
               todo={todo}
               onClickEditTodo={() => onClickEditTodo(index)}
               onCompleteTodo={() => onCompleteTodo(index)}

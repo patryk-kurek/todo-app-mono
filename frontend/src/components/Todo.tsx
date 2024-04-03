@@ -3,8 +3,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { TodoInterface } from "../interfaces";
+ 
+interface TodoProps {
+    todo: TodoInterface;
+    onCompleteTodo: ()=>void;
+    onEditTodo: ()=>void;
+    onDeleteTodo: ()=>void;
+}
 
-const Todo = (props: any) => {
+const Todo = (props: TodoProps) => {
   return (
     <Card
       sx={{
@@ -45,7 +53,7 @@ const Todo = (props: any) => {
             </Fab>
             <Fab
               size="small"
-              onClick={props.onClickEditTodo}
+              onClick={props.onEditTodo}
               sx={{ marginLeft: "10px" }}
             >
               <EditIcon />

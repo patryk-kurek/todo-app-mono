@@ -2,11 +2,8 @@ import "./App.css";
 import Todo from "./components/Todo";
 import { Modal, TextField, Box, FormControl } from "@mui/material";
 import { useState } from "react";
+import { TodoInterface } from "./interfaces";
 
-interface Todo {
-  value: string;
-  completed: boolean;
-}
 
 interface EditMode {
   todoIndex: number | null;
@@ -28,7 +25,7 @@ const ModalStyle = {
 
 function App() {
   const [state, setState] = useState<{
-    todos: Todo[];
+    todos: TodoInterface[];
     editMode: EditMode;
     input: string;
   }>({
@@ -62,7 +59,7 @@ function App() {
   const onSubmitInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && state.input !== "") {
       const todos = state.todos;
-      const todo: Todo = {
+      const todo: TodoInterface = {
         value: state.input,
         completed: false,
       };
@@ -89,7 +86,7 @@ function App() {
     });
   };
 
-  const onClickEditTodo = (index: number) => {
+  const onClickEditTodo = (index: number) => { 
     setState((prevState) => {
       return {
         ...prevState,
@@ -104,6 +101,7 @@ function App() {
   const onChangeInputEditMode = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
+    event.preventDefault();
     setState((prevState) => {
       return {
         ...prevState,
@@ -176,8 +174,9 @@ function App() {
         {state.todos.map((todo, index) => {
           return (
             <Todo
+              key={index}
               todo={todo}
-              onClickEditTodo={() => onClickEditTodo(index)}
+              onEditTodo={() => onClickEditTodo(index)}
               onCompleteTodo={() => onCompleteTodo(index)}
               onDeleteTodo={() => onDeleteTodo(index)}
             />
